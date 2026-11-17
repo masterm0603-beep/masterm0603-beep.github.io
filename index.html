@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="태권웍스">
+<title>태권웍스 종합 관리</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 112 112'%3E%3Crect width='112' height='112' rx='26' fill='%23fff'/%3E%3Cpath d='M22 34H62M42 34V82' stroke='%2314213D' stroke-width='12' stroke-linecap='round' fill='none'/%3E%3Cpolyline points='56,46 66,82 76,58 86,82 96,46' stroke='%23D62839' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M20 94Q60 104 96 92' stroke='%23D62839' stroke-width='5' stroke-linecap='round' fill='none' opacity='.7'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0b1020; --bg2:#121a33; --card:#151e3a; --line:rgba(255,255,255,.09);
+  --text:#f4f6fb; --sub:#9aa6c4; --red:#ff3b52; --navy:#14213D;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%}
+body{
+  font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  background:radial-gradient(1200px 600px at 80% -10%,rgba(214,40,57,.18),transparent 60%),
+             radial-gradient(900px 500px at -10% 110%,rgba(60,90,200,.18),transparent 60%),var(--bg);
+  color:var(--text); -webkit-font-smoothing:antialiased;
+  padding:max(28px,env(safe-area-inset-top)) 16px max(28px,env(safe-area-inset-bottom));
+}
+.wrap{max-width:980px;margin:0 auto}
+header{display:flex;align-items:center;gap:14px;margin-bottom:8px}
+.logo{width:56px;height:56px;flex:none;border-radius:15px;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.brand b{display:block;font-size:24px;font-weight:900;letter-spacing:-.5px}
+.brand b .wr{color:var(--red)}
+.brand small{display:block;font-size:12px;color:var(--sub);letter-spacing:2px;font-weight:700}
+h1{font-size:clamp(26px,5vw,38px);font-weight:900;letter-spacing:-1px;margin:34px 0 6px}
+.lead{color:var(--sub);font-size:15px;margin-bottom:26px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.app{
+  position:relative;display:flex;flex-direction:column;gap:12px;min-height:190px;
+  padding:22px;border-radius:22px;text-decoration:none;color:inherit;overflow:hidden;
+  background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015)),var(--card);
+  border:1px solid var(--line);transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+.app::after{content:"";position:absolute;inset:auto -40px -60px auto;width:180px;height:180px;border-radius:50%;
+  background:var(--glow);opacity:.22;filter:blur(30px);transition:opacity .2s}
+.app:hover,.app:focus-visible{transform:translateY(-4px);border-color:rgba(255,255,255,.22);box-shadow:0 16px 40px rgba(0,0,0,.35);outline:none}
+.app:hover::after{opacity:.4}
+.app:active{transform:translateY(-1px) scale(.99)}
+.ico{width:58px;height:58px;border-radius:16px;display:grid;place-items:center;font-size:30px;background:var(--glow)}
+.app h2{font-size:21px;font-weight:800;letter-spacing:-.4px}
+.app p{color:var(--sub);font-size:14px;line-height:1.5;flex:1}
+.go{font-size:14px;font-weight:800;color:#fff;opacity:.85}
+.no{position:absolute;top:18px;right:20px;font-size:13px;font-weight:900;color:rgba(255,255,255,.25)}
+.soon{border-style:dashed;background:transparent;align-items:center;justify-content:center;text-align:center;color:var(--sub);cursor:default}
+.soon::after{display:none}
+.soon:hover{transform:none;box-shadow:none;border-color:var(--line)}
+.soon .ico{background:rgba(255,255,255,.05);font-size:26px}
+footer{margin-top:34px;text-align:center;color:var(--sub);font-size:12px;opacity:.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg class="logo" viewBox="0 0 112 112" aria-hidden="true">
+      <rect width="112" height="112" rx="26" fill="#fff"/>
+      <path d="M22 34H62M42 34V82" stroke="#14213D" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <polyline points="56,46 66,82 76,58 86,82 96,46" stroke="#D62839" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M20 94Q60 104 96 92" stroke="#D62839" stroke-width="5" stroke-linecap="round" fill="none" opacity=".7"/>
+    </svg>
+    <div class="brand"><b>태권<span class="wr">웍스</span></b><small>TAEKWONWORKS</small></div>
+  </header>
+
+  <h1>종합 관리 프로그램</h1>
+  <p class="lead">쓰고 싶은 프로그램을 눌러 주세요.</p>
+
+  <main class="grid" id="grid"></main>
+
+  <footer>© 태권웍스 · 도장 운영 올인원</footer>
+</div>
+
+<script>
+// ▼ 프로그램을 늘릴 때는 여기에 한 줄씩 추가하면 돼요
+const APPS = [
+  { icon:'🥋', name:'승품심사 합격발표', desc:'국기원 승품·단 심사 결과를 영상과 카드로 멋지게 발표해요.',
+    url:'https://masterm0603-beep.github.io/taekwonworks/', glow:'#D62839' },
+  { icon:'📒', name:'일일 업무일지', desc:'오늘 할 일과 수업 기록을 정리해요.',
+    url:'https://masterm0603-beep.github.io/diary/', glow:'#2f6bff' },
+  { icon:'💥', name:'무한의 격파', desc:'스타클래스 격파 도전 프로그램이에요.',
+    url:'https://starclass-gyeokpa.web.app/', glow:'#ff9f1a' },
+];
+
+const grid = document.getElementById('grid');
+APPS.forEach((a, i) => {
+  const el = document.createElement('a');
+  el.className = 'app'; el.href = a.url; el.style.setProperty('--glow', a.glow);
+  el.innerHTML = `<span class="no">${String(i+1).padStart(2,'0')}</span>
+    <span class="ico">${a.icon}</span><h2></h2><p></p><span class="go">열기 ›</span>`;
+  el.querySelector('h2').textContent = a.name;
+  el.querySelector('p').textContent = a.desc;
+  grid.appendChild(el);
+});
+const soon = document.createElement('div');
+soon.className = 'app soon';
+soon.innerHTML = '<span class="ico">＋</span><h2 style="font-size:17px">새 프로그램 준비 중</h2>';
+grid.appendChild(soon);
+</script>
+</body>
+</html>
