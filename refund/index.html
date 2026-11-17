@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="교육비 반환">
+<title>태권웍스 교육비 반환</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 112 112'%3E%3Crect width='112' height='112' rx='26' fill='%23fff'/%3E%3Cpath d='M22 34H62M42 34V82' stroke='%2314213D' stroke-width='12' stroke-linecap='round' fill='none'/%3E%3Cpolyline points='56,46 66,82 76,58 86,82 96,46' stroke='%23D62839' stroke-width='10' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M20 94Q60 104 96 92' stroke='%23D62839' stroke-width='5' stroke-linecap='round' fill='none' opacity='.7'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0b1020; --card:#141c37; --card2:#1a2447; --line:rgba(255,255,255,.09);
+  --text:#f4f6fb; --sub:#9aa6c4; --dim:#6b7697;
+  --red:#ff3b52; --red2:#D62839; --gold:#ffc94d; --green:#3ddc97;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  background:radial-gradient(900px 500px at 90% -10%,rgba(214,40,57,.20),transparent 60%),
+             radial-gradient(700px 500px at -10% 100%,rgba(60,90,200,.16),transparent 60%),var(--bg);
+  background-attachment:fixed;
+  color:var(--text); -webkit-font-smoothing:antialiased; min-height:100vh;
+  padding:max(14px,env(safe-area-inset-top)) 16px max(40px,env(safe-area-inset-bottom));
+}
+.wrap{max-width:560px;margin:0 auto}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+input{font:inherit;color:inherit}
+
+/* 헤더 */
+header{display:flex;align-items:center;gap:10px;padding:6px 0 14px}
+.logo{width:38px;height:38px;flex:none;border-radius:11px;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.brand{flex:1;min-width:0}
+.brand b{display:block;font-size:19px;font-weight:900;letter-spacing:-.5px;white-space:nowrap}
+.brand b .wr{color:var(--red)}
+.brand small{display:block;font-size:11px;color:var(--sub);font-weight:700;letter-spacing:.5px}
+.hbtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--card);
+  display:grid;place-items:center;font-size:18px;text-decoration:none;color:var(--text)}
+.ver{font-size:11px;color:var(--dim);font-weight:700}
+
+/* 카드 */
+.card{background:linear-gradient(160deg,rgba(255,255,255,.05),rgba(255,255,255,.01)),var(--card);
+  border:1px solid var(--line);border-radius:22px;padding:18px 16px;margin-bottom:14px}
+.lbl{display:flex;justify-content:space-between;align-items:baseline;gap:8px;
+  font-size:13px;font-weight:800;color:var(--sub);margin:16px 2px 8px}
+.lbl:first-child{margin-top:0}
+.lbl span{font-size:11px;font-weight:600;color:var(--dim);text-align:right}
+
+/* 선택 버튼 */
+.seg{display:grid;gap:8px}
+.seg.c2{grid-template-columns:1fr 1fr}
+.seg.c3{grid-template-columns:repeat(3,1fr)}
+.seg.c6{grid-template-columns:repeat(6,1fr)}
+.seg.c6 .opt{grid-column:span 2}
+.seg.c6 .opt.w3{grid-column:span 3}
+.opt{border:1px solid var(--line);background:var(--card2);border-radius:14px;padding:12px 6px;
+  text-align:center;transition:background .15s,border-color .15s,transform .1s;min-height:58px}
+.opt b{display:block;font-size:16px;font-weight:800}
+.opt small{display:block;font-size:11px;color:var(--dim);margin-top:3px;line-height:1.3}
+.opt:active{transform:scale(.97)}
+.opt.on{background:linear-gradient(160deg,#ff5468,var(--red2));border-color:transparent;box-shadow:0 6px 18px rgba(214,40,57,.35)}
+.opt.on small{color:rgba(255,255,255,.85)}
+.opt.full{grid-column:1/-1}
+
+/* 입력 */
+.money{display:flex;align-items:center;gap:6px;background:var(--card2);border:1px solid var(--line);
+  border-radius:16px;padding:0 16px;height:62px}
+.money:focus-within,.field:focus-within{border-color:rgba(255,59,82,.6)}
+.money input{flex:1;min-width:0;background:none;border:0;outline:0;text-align:right;font-size:26px;font-weight:800}
+.money input::placeholder{color:var(--dim);font-weight:700;font-size:18px}
+.money em{font-style:normal;color:var(--sub);font-weight:700}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.field{background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:10px 14px 8px;min-width:0}
+.field label{display:block;font-size:11px;font-weight:700;color:var(--sub);margin-bottom:4px}
+.field input{width:100%;background:none;border:0;outline:0;font-size:17px;font-weight:800;color-scheme:dark;min-height:30px}
+.field input::placeholder{color:var(--dim)}
+
+/* 결과 */
+.result{border:1.5px solid rgba(255,201,77,.45);background:linear-gradient(170deg,rgba(255,201,77,.08),rgba(255,201,77,0) 55%),var(--card);text-align:center}
+.empty{color:var(--sub);font-weight:700;padding:14px 0}
+.r-cap{font-size:13px;font-weight:800;color:var(--sub)}
+.r-amt{font-size:44px;font-weight:900;color:var(--gold);letter-spacing:-1.5px;margin:4px 0 10px}
+.r-msg{font-size:16px;font-weight:700;line-height:1.6;word-break:keep-all}
+.r-meta{font-size:13px;color:var(--sub);margin-top:8px;font-weight:600}
+.r-calc{font-size:13px;color:var(--gold);margin-top:6px;font-weight:600;line-height:1.5;word-break:keep-all}
+.copy{margin-top:14px;border:0;border-radius:14px;padding:13px 18px;font-weight:800;font-size:15px;
+  background:#2f6bff;box-shadow:0 6px 18px rgba(47,107,255,.35);width:100%}
+.copy:active{transform:scale(.98)}
+.sub-card{background:var(--card2);border:1px solid var(--line);border-radius:18px;padding:16px;text-align:left;margin-top:12px}
+.sub-card .r-amt{font-size:32px;margin:2px 0 8px}
+.sub-card h4{font-size:13px;color:var(--sub);font-weight:800}
+.sub-card .r-msg{font-size:15px}
+.sub-card .tip{font-size:12px;color:var(--gold);margin-top:6px;font-weight:600;word-break:keep-all}
+.warn{color:#ff8a8a;font-weight:700;padding:10px 0}
+
+/* 표 */
+.tbl{width:100%;border-collapse:collapse;margin-top:6px}
+.tbl th,.tbl td{padding:11px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+.tbl th{font-size:12px;color:var(--sub);font-weight:700}
+.tbl td:last-child,.tbl th:last-child{text-align:right}
+.tbl td b{font-size:15px;font-weight:800}
+.tbl td small{display:block;font-size:11px;color:var(--dim);margin-top:2px}
+.tbl .hl{color:var(--gold)}
+.feeRow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.feeRow b{width:40px;font-weight:800}
+.feeRow .money{flex:1;height:46px;border-radius:12px}
+.feeRow .money input{font-size:18px}
+.note{font-size:12px;color:var(--sub);line-height:1.6;margin-top:12px;word-break:keep-all}
+.note.dim{color:var(--dim)}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(20px);
+  background:#fff;color:#111;font-weight:800;font-size:14px;padding:12px 18px;border-radius:999px;
+  opacity:0;pointer-events:none;transition:.25s;box-shadow:0 10px 30px rgba(0,0,0,.4);white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+footer{text-align:center;color:var(--dim);font-size:11px;margin-top:20px}
+.hide{display:none!important}
+
+/* 인쇄: 반환 안내 표만 */
+.printOnly{display:none}
+@media print{
+  @page{margin:16mm}
+  body{background:#fff!important;color:#111;padding:0}
+  body > .wrap > *:not(#tableCard){display:none!important}
+  #tableCard{border:0;background:#fff;padding:0}
+  #tableCard .noprint{display:none!important}
+  .printOnly{display:block}
+  .printOnly h1{font-size:22px;margin-bottom:4px}
+  .printOnly p{font-size:13px;color:#444;margin-bottom:10px}
+  .tbl th,.tbl td{border-bottom:1px solid #ccc;color:#111;padding:12px 6px}
+  .tbl td small{color:#555}
+  .tbl .hl{color:#b3001b}
+  .note{color:#333}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <svg class="logo" viewBox="0 0 112 112" aria-hidden="true">
+      <rect width="112" height="112" rx="26" fill="#fff"/>
+      <path d="M22 34H62M42 34V82" stroke="#14213D" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <polyline points="56,46 66,82 76,58 86,82 96,46" stroke="#D62839" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M20 94Q60 104 96 92" stroke="#D62839" stroke-width="5" stroke-linecap="round" fill="none" opacity=".7"/>
+    </svg>
+    <div class="brand"><b>태권<span class="wr">웍스</span> 교육비 반환</b><small>그만둠 · 결석 반환금을 바로 계산해요</small></div>
+    <a class="hbtn" href="https://masterm0603-beep.github.io/" title="종합 관리로">🏠</a>
+    <button class="hbtn" id="printBtn" title="반환 안내 표 인쇄">🖨️</button>
+    <span class="ver">v1.0</span>
+  </header>
+
+  <!-- 입력 -->
+  <section class="card">
+    <div class="lbl">계산 방법</div>
+    <div class="seg c2" id="methodSeg">
+      <button class="opt" data-v="week"><b>주 단위</b><small>한 달 = 4주</small></button>
+      <button class="opt" data-v="day"><b>날짜</b><small>한 달 = 30일</small></button>
+      <button class="opt full" data-v="weekday"><b>평일만</b><small>월~금만 셈</small></button>
+    </div>
+
+    <div class="lbl" id="freqLbl">주 몇 회인가요</div>
+    <div class="seg c6" id="freqSeg"></div>
+
+    <div class="lbl">월 교육비 <span>형제 할인 등은 여기서 고치세요</span></div>
+    <label class="money"><input id="fee" inputmode="numeric" placeholder="월 교육비를 넣어 주세요" autocomplete="off"><em>원</em></label>
+
+    <div class="lbl">무슨 일인가요</div>
+    <div class="seg c2" id="caseSeg">
+      <button class="opt" data-v="quit"><b>그만둠</b><small>퇴관 · 남은 만큼 반환</small></button>
+      <button class="opt" data-v="absent"><b>결석</b><small>쉬었다 옴 · 환불 또는 날짜 변경</small></button>
+    </div>
+
+    <div class="row2" id="quitBox">
+      <div class="field"><label for="start">수련 시작일 (납부일)</label><input type="date" id="start"></div>
+      <div class="field"><label for="last">마지막 수련일</label><input type="date" id="last"></div>
+    </div>
+    <div class="row2 hide" id="absentBox">
+      <div class="field"><label for="pay">교육비 납부일</label><input type="date" id="pay"></div>
+      <div class="field"><label for="days" id="daysLbl">결석 일수</label><input id="days" inputmode="numeric" placeholder="예: 6" autocomplete="off"></div>
+    </div>
+  </section>
+
+  <!-- 결과 -->
+  <section class="card result" id="result"></section>
+
+  <!-- 반환 안내 표 + 금액 설정 -->
+  <section class="card" id="tableCard">
+    <div class="printOnly"><h1>교육비 반환 안내</h1><p id="printSub"></p></div>
+    <div class="lbl noprint">반환 안내 표 <span>도장에 붙이거나 학부모께 보여 주세요</span></div>
+    <div id="tableBox"></div>
+    <p class="note" id="ruleNote"></p>
+
+    <div class="noprint">
+      <div class="lbl" style="margin-top:22px">주 몇 회별 월 교육비 <span>한 번 넣어 두면 이 기기에 저장돼요</span></div>
+      <div id="feeList"></div>
+      <p class="note dim">여기 넣어 둔 금액은 위에서 「주 몇 회」를 누르면 월 교육비 칸에 자동으로 들어가요. 위약금·공제는 계산하지 않아요.</p>
+    </div>
+  </section>
+
+  <footer>© 태권웍스 · 도장 운영 올인원</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+'use strict';
+const $ = id => document.getElementById(id);
+const FREQS = [5,4,3,2,1];
+const KEY = 'tw_refund_v1';
+
+// ---------- 저장 ----------
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify({method:S.method,freq:S.freq,kase:S.kase,fees:S.fees})); }catch(e){} }
+
+const saved = load();
+const S = {
+  method: saved.method || 'week',
+  freq: saved.freq || 5,
+  kase: saved.kase || 'quit',
+  fees: saved.fees || {},
+  fee: 0
+};
+
+// ---------- 날짜 도구 ----------
+const pad = n => String(n).padStart(2,'0');
+const iso = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+function parse(s){ if(!s) return null; const [y,m,d] = s.split('-').map(Number); if(!y||!m||!d) return null; return new Date(y,m-1,d); }
+const addDays = (d,n) => new Date(d.getFullYear(), d.getMonth(), d.getDate()+n);
+function addMonth(d){ // 같은 날짜의 다음 달 (31일 → 말일)
+  const y=d.getFullYear(), m=d.getMonth()+1, last=new Date(y,m+1,0).getDate();
+  return new Date(y, m, Math.min(d.getDate(), last));
+}
+const diffDays = (a,b) => Math.round((b - a) / 86400000);
+const md = d => (d.getMonth()+1)+'월 '+d.getDate()+'일';
+function weekdaysBetween(a,b){ let n=0; for(let d=new Date(a); d<=b; d=addDays(d,1)){ const w=d.getDay(); if(w>0&&w<6) n++; } return n; }
+function addWeekdays(d,n){ let x=new Date(d); while(n>0){ x=addDays(x,1); const w=x.getDay(); if(w>0&&w<6) n--; } return x; }
+const won = n => Math.round(n).toLocaleString('ko-KR');
+const unit = (fee,n) => Math.floor(fee/n/10)*10; // 1회·하루 금액, 10원 아래 버림
+const num = s => Number(String(s||'').replace(/[^0-9]/g,'')) || 0;
+
+// ---------- 화면 만들기 ----------
+function renderFreq(){
+  const seg = $('freqSeg'); seg.innerHTML='';
+  FREQS.forEach((f,i)=>{
+    const b=document.createElement('button');
+    b.className='opt'+(i>=3?' w3':'')+(S.freq===f?' on':'');
+    const fee=S.fees[f];
+    b.innerHTML='<b>주'+f+'</b><small>'+(fee?won(fee)+'원':'금액 없음')+'</small>';
+    b.onclick=()=>{ S.freq=f; if(S.fees[f]) setFee(S.fees[f]); save(); renderAll(); };
+    seg.appendChild(b);
+  });
+}
+function renderSeg(id,val){ $(id).querySelectorAll('.opt').forEach(b=>b.classList.toggle('on', b.dataset.v===val)); }
+function setFee(v){ S.fee=v; $('fee').value = v ? won(v) : ''; }
+
+function renderFeeList(){
+  const box=$('feeList'); box.innerHTML='';
+  FREQS.forEach(f=>{
+    const row=document.createElement('div'); row.className='feeRow';
+    row.innerHTML='<b>주'+f+'</b><label class="money"><input inputmode="numeric" placeholder="월 교육비"><em>원</em></label>';
+    const inp=row.querySelector('input');
+    inp.value=S.fees[f]?won(S.fees[f]):'';
+    inp.addEventListener('input',()=>{
+      const v=num(inp.value); inp.value=v?won(v):'';
+      if(v) S.fees[f]=v; else delete S.fees[f];
+      if(f===S.freq) setFee(v);
+      save(); renderFreq(); renderResult(); renderTable();
+    });
+    box.appendChild(row);
+  });
+}
+
+// ---------- 계산 ----------
+function calcQuit(){
+  const st=parse($('start').value), ls=parse($('last').value), fee=S.fee, f=S.freq;
+  if(!fee) return {need:'월 교육비를 넣어 주세요'};
+  if(!st||!ls) return {need:'날짜를 넣어 주세요'};
+  if(ls<st) return {err:'마지막 수련일이 시작일보다 빨라요'};
+  const d=diffDays(st,ls)+1;
+  const head = md(st)+'부터 '+md(ls)+'까지 수련하셨으니';
+
+  if(S.method==='week'){
+    const total=f*4, per=unit(fee,total);
+    const wk=Math.min(4,Math.ceil(d/7)), used=wk*f, rem=total-used, amt=per*rem;
+    return { amt,
+      msg: rem>0 ? head+'('+wk+'주·'+used+'회) 남은 '+rem+'회분 '+won(amt)+'원을 반환해 드립니다.'
+                 : head+'('+wk+'주) 한 달 수련을 모두 채워 반환할 금액이 없습니다.',
+      meta: d+'일 · '+wk+'주 · '+total+'회 중 '+used+'회 다님 · '+rem+'회 남음',
+      calc: won(fee)+'원 ÷ '+total+'회 = 1회 '+won(per)+'원 · '+used+'회 다님 · 남은 '+rem+'회 × '+won(per)+'원 = '+won(amt)+'원' };
+  }
+  if(S.method==='day'){
+    const per=unit(fee,30), used=Math.min(30,d), rem=30-used, amt=per*rem;
+    return { amt,
+      msg: rem>0 ? head+'('+used+'일) 남은 '+rem+'일분 '+won(amt)+'원을 반환해 드립니다.'
+                 : head+' 한 달(30일)을 모두 채워 반환할 금액이 없습니다.',
+      meta: '30일 중 '+used+'일 다님 · '+rem+'일 남음',
+      calc: won(fee)+'원 ÷ 30일 = 하루 '+won(per)+'원 · 남은 '+rem+'일 × '+won(per)+'원 = '+won(amt)+'원' };
+  }
+  // 평일만
+  const end=addDays(addMonth(st),-1), total=weekdaysBetween(st,end), per=unit(fee,total);
+  const used=weekdaysBetween(st, ls<end?ls:end), rem=total-used, amt=per*rem;
+  return { amt,
+    msg: rem>0 ? head+'(평일 '+used+'일) 남은 평일 '+rem+'일분 '+won(amt)+'원을 반환해 드립니다.'
+               : head+' 이번 달 평일 수련을 모두 채워 반환할 금액이 없습니다.',
+    meta: md(st)+'~'+md(end)+' 평일 '+total+'일 중 '+used+'일 · '+rem+'일 남음',
+    calc: won(fee)+'원 ÷ 평일 '+total+'일 = 하루 '+won(per)+'원 · 남은 '+rem+'일 × '+won(per)+'원 = '+won(amt)+'원' };
+}
+
+function calcAbsent(){
+  const pay=parse($('pay').value), n=num($('days').value), fee=S.fee, f=S.freq;
+  if(!fee) return {need:'월 교육비를 넣어 주세요'};
+  if(!pay) return {need:'교육비 납부일을 넣어 주세요'};
+  if(!n) return {need:'결석 일수를 넣어 주세요'};
+  let amt, unitTxt, calc, newPay;
+  if(S.method==='week'){
+    const total=f*4, per=unit(fee,total), wk=Math.min(4,Math.ceil(n/7)), ses=wk*f;
+    amt=per*ses; unitTxt=wk+'주·'+ses+'회';
+    calc=won(fee)+'원 ÷ '+total+'회 = 1회 '+won(per)+'원 · 결석 '+ses+'회 × '+won(per)+'원 = '+won(amt)+'원';
+    newPay=addDays(pay,n);
+  }else if(S.method==='day'){
+    const per=unit(fee,30), dd=Math.min(30,n);
+    amt=per*dd; unitTxt=dd+'일';
+    calc=won(fee)+'원 ÷ 30일 = 하루 '+won(per)+'원 · '+dd+'일 × '+won(per)+'원 = '+won(amt)+'원';
+    newPay=addDays(pay,n);
+  }else{
+    const end=addDays(addMonth(pay),-1), total=weekdaysBetween(pay,end), per=unit(fee,total), dd=Math.min(total,n);
+    amt=per*dd; unitTxt='평일 '+dd+'일';
+    calc=won(fee)+'원 ÷ 평일 '+total+'일 = 하루 '+won(per)+'원 · '+dd+'일 × '+won(per)+'원 = '+won(amt)+'원';
+    newPay=addWeekdays(pay,n);
+  }
+  const next=addMonth(newPay);
+  return { absent:true, n, amt,
+    msg1: md(pay)+' 교육비 중 결석 '+n+'일('+unitTxt+')분 '+won(amt)+'원을 환불해 드립니다.',
+    calc,
+    from: md(pay), to: md(newPay),
+    msg2: '결석 '+n+'일만큼 교육비 날짜를 '+md(pay)+'에서 '+md(newPay)+'로 옮겨 드립니다. 다음 교육비는 '+md(next)+'입니다.',
+    tip: '수련생 정보의 「교육비 납부일」도 매월 '+newPay.getDate()+'일로 바꿔 주세요' };
+}
+
+// ---------- 결과 그리기 ----------
+let copyTexts=[];
+function renderResult(){
+  const box=$('result'); copyTexts=[];
+  const r = S.kase==='quit' ? calcQuit() : calcAbsent();
+  if(r.need){ box.innerHTML='<div class="empty">'+r.need+'</div>'; return; }
+  if(r.err){ box.innerHTML='<div class="warn">⚠️ '+r.err+'</div>'; return; }
+  if(!r.absent){
+    copyTexts=[r.msg];
+    box.innerHTML='<div class="r-cap">반환해 드릴 금액</div><div class="r-amt">'+won(r.amt)+'원</div>'+
+      '<div class="r-msg"></div><div class="r-meta"></div><div class="r-calc"></div>'+
+      '<button class="copy" data-i="0">📋 문장 복사 (카톡에 붙여 넣기)</button>';
+    box.querySelector('.r-msg').textContent=r.msg;
+    box.querySelector('.r-meta').textContent=r.meta;
+    box.querySelector('.r-calc').textContent=r.calc;
+  }else{
+    copyTexts=[r.msg1,r.msg2];
+    box.innerHTML='<div class="r-cap">결석 '+r.n+'일 — 둘 중 하나로 안내하세요</div>'+
+      '<div class="sub-card"><h4>💰 결석분 환불</h4><div class="r-amt">'+won(r.amt)+'원</div><div class="r-msg m1"></div><div class="r-calc c1" style="text-align:left"></div>'+
+      '<button class="copy" data-i="0">📋 문장 복사</button></div>'+
+      '<div class="sub-card"><h4>📅 교육비 날짜 변경</h4><div class="r-amt">'+r.from+' → '+r.to+'</div><div class="r-msg m2"></div><div class="tip"></div>'+
+      '<button class="copy" data-i="1">📋 문장 복사</button></div>';
+    box.querySelector('.m1').textContent=r.msg1;
+    box.querySelector('.c1').textContent=r.calc;
+    box.querySelector('.m2').textContent=r.msg2;
+    box.querySelector('.tip').textContent=r.tip;
+  }
+}
+
+function renderTable(){
+  const box=$('tableBox'), f=S.freq, fee=S.fee, note=$('ruleNote');
+  $('printSub').textContent='주'+f+'회 · 월 교육비 '+(fee?won(fee)+'원':'-');
+  if(!fee){ box.innerHTML='<div class="empty" style="text-align:center">월 교육비를 넣으면 표가 만들어져요</div>'; note.textContent=''; return; }
+  let rows=[], head;
+  if(S.method==='week'){
+    const total=f*4, per=unit(fee,total);
+    head='<tr><th>다닌 기간</th><th>주'+f+' · <span class="hl">'+won(fee)+'원</span></th></tr>';
+    [['1~7일째',1],['8~14일째',2],['15~21일째',3],['22일째부터',4]].forEach(([t,w])=>{
+      const used=w*f, rem=total-used;
+      rows.push('<tr><td><b>'+t+'</b><small>'+w+'주 다님</small></td><td><b>'+won(per*rem)+'원</b><small>'+used+'회 다님 · '+rem+'회 남음</small></td></tr>');
+    });
+    note.textContent='계산 규칙 — 한 달을 4주로 봅니다. 1~7일째는 1주, 8~14일째는 2주, 15~21일째는 3주, 22일째부터는 4주(한 달)로 셉니다. 1회 금액(월 교육비 ÷ 주 n회 × 4주)에 남은 횟수를 곱해 돌려드립니다. 위약금·공제는 없습니다.';
+  }else if(S.method==='day'){
+    const per=unit(fee,30);
+    head='<tr><th>다닌 날</th><th>하루 '+won(per)+'원 · <span class="hl">'+won(fee)+'원</span></th></tr>';
+    [5,10,15,20,25,30].forEach(d=>{
+      rows.push('<tr><td><b>'+d+'일째까지</b><small>'+d+'일 다님</small></td><td><b>'+won(per*(30-d))+'원</b><small>'+(30-d)+'일 남음</small></td></tr>');
+    });
+    note.textContent='계산 규칙 — 한 달을 30일로 봅니다. 하루 금액(월 교육비 ÷ 30)에 남은 날 수를 곱해 돌려드립니다. 위약금·공제는 없습니다.';
+  }else{
+    box.innerHTML='<div class="empty" style="text-align:center">평일만 방식은 달마다 평일 수가 달라서<br>표 대신 위 계산기를 써 주세요</div>';
+    note.textContent='계산 규칙 — 납부일부터 한 달 동안의 평일(월~금) 수로 하루 금액을 정하고, 남은 평일 수만큼 돌려드립니다. 위약금·공제는 없습니다.';
+    return;
+  }
+  box.innerHTML='<table class="tbl"><thead>'+head+'</thead><tbody>'+rows.join('')+'</tbody></table>';
+}
+
+function renderAll(){
+  renderSeg('methodSeg',S.method); renderSeg('caseSeg',S.kase); renderFreq();
+  $('freqLbl').textContent = S.method==='week' ? '주 몇 회인가요' : '주 몇 회인가요 (교육비 불러오기용)';
+  $('quitBox').classList.toggle('hide', S.kase!=='quit');
+  $('absentBox').classList.toggle('hide', S.kase!=='absent');
+  $('daysLbl').textContent = S.method==='weekday' ? '결석한 평일 수' : '결석 일수';
+  renderResult(); renderTable();
+}
+
+// ---------- 복사 ----------
+function toast(t){ const el=$('toast'); el.textContent=t; el.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove('show'),1800); }
+function copy(text){
+  const done=()=>toast('복사했어요. 카톡에 붙여 넣으세요');
+  if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(text).then(done).catch(()=>fallback(text,done)); }
+  else fallback(text,done);
+}
+function fallback(text,done){
+  const ta=document.createElement('textarea'); ta.value=text; ta.setAttribute('readonly','');
+  ta.style.cssText='position:fixed;top:0;left:0;opacity:0'; document.body.appendChild(ta);
+  ta.select(); ta.setSelectionRange(0,text.length);
+  try{ document.execCommand('copy'); done(); }catch(e){ toast('복사가 안 돼요. 길게 눌러 복사해 주세요'); }
+  document.body.removeChild(ta);
+}
+
+// ---------- 이벤트 ----------
+$('methodSeg').addEventListener('click',e=>{ const b=e.target.closest('.opt'); if(!b) return; S.method=b.dataset.v; save(); renderAll(); });
+$('caseSeg').addEventListener('click',e=>{ const b=e.target.closest('.opt'); if(!b) return; S.kase=b.dataset.v; save(); renderAll(); });
+$('fee').addEventListener('input',()=>{ const v=num($('fee').value); S.fee=v; $('fee').value=v?won(v):''; renderResult(); renderTable(); });
+['start','last','pay'].forEach(id=>$(id).addEventListener('change',renderResult));
+$('days').addEventListener('input',()=>{ $('days').value=String(num($('days').value)||''); renderResult(); });
+$('result').addEventListener('click',e=>{ const b=e.target.closest('.copy'); if(b) copy(copyTexts[+b.dataset.i]); });
+$('printBtn').addEventListener('click',()=>window.print());
+
+// ---------- 시작 ----------
+const today=new Date(), first=new Date(today.getFullYear(),today.getMonth(),1);
+$('start').value=iso(first); $('last').value=iso(today); $('pay').value=iso(first);
+setFee(S.fees[S.freq]||0);
+renderFeeList(); renderAll();
+})();
+</script>
+</body>
+</html>
